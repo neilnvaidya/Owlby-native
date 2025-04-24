@@ -1,0 +1,60 @@
+{
+  "name": "owlby-backend",
+  "version": "1.0.0",
+  "description": "Backend server for Owlby learning platform",
+  "main": "dist/server.js",
+  "scripts": {
+    "start": "node dist/server.js",
+    "dev": "nodemon src/server.ts",
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "deploy:gcp": "gcloud run deploy owlby-backend --source . --region us-central1 --platform managed",
+    "logs:gcp": "gcloud logging read \"resource.type=cloud_run_revision AND resource.labels.service_name=owlby-backend\" --limit 50",
+    "migrate": "ts-node src/db/migrate.ts",
+    "setup:supabase": "node scripts/setup-supabase.js",
+    "test:db": "ts-node src/test-db.ts",
+    "check:users": "ts-node src/test-users-table.ts",
+    "update:users": "ts-node src/update-users-table.ts"
+  },
+  "keywords": [
+    "education",
+    "learning",
+    "ai",
+    "backend"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/logging": "^10.0.0",
+    "@google-cloud/storage": "^7.0.0",
+    "@react-native-async-storage/async-storage": "^2.1.2",
+    "@supabase/supabase-js": "^2.49.4",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "expo-auth-session": "^6.0.3",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "helmet": "^7.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "pg": "^8.11.0",
+    "redis": "^4.7.0",
+    "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/morgan": "^1.9.4",
+    "@types/node": "^20.2.5",
+    "@types/pg": "^8.10.2",
+    "@types/uuid": "^10.0.0",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+}
