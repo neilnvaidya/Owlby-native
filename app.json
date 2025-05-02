@@ -37,8 +37,12 @@
     "extra": {
       "eas": {
         "projectId": "c0c00d14-ecf9-4ee1-b5b6-f195e1d25bfe"
-      }
+      },
+      "developmentUrl": "https://owlby-native-7mdoa3t1s-neilnvaidyas-projects.vercel.app/api/development"
     },
-    "owner": "neilvaidya"
+    "owner": "neilvaidya",
+    "developmentClient": {
+      "silentLaunch": true
+    }
   }
 }
