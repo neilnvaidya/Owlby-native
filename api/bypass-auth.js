@@ -1,7 +1,4 @@
-// This is a public endpoint that doesn't require Vercel authentication
-const { Expo } = require('expo-server-sdk');
-require('dotenv').config();
-
+// Simple bypass auth endpoint
 module.exports = async (req, res) => {
   try {
     // Enable CORS
@@ -15,32 +12,24 @@ module.exports = async (req, res) => {
       return res.status(200).end();
     }
     
-    // Initialize Expo SDK
-    const expo = new Expo();
-
-    // Set the development URL to the current Vercel deployment URL
-    const developmentUrl = process.env.VERCEL_URL 
+    // Current deployment URL
+    const baseUrl = process.env.VERCEL_URL 
       ? `https://${process.env.VERCEL_URL}`
-      : 'https://owlby-native-pnp4wef85-neilnvaidyas-projects.vercel.app';
+      : 'https://owlby-native-i1tb9xow6-neilnvaidyas-projects.vercel.app';
 
-    // Get environment
-    const environment = process.env.NODE_ENV || 'development';
-
-    // Return the development URL and configuration
+    // Return API info
     res.status(200).json({
-      url: developmentUrl,
-      status: environment,
+      url: baseUrl,
+      status: "production",
       apiEndpoints: {
-        auth: `${developmentUrl}/api/auth`,
-        users: `${developmentUrl}/api/users`,
-        sessions: `${developmentUrl}/api/sessions`
+        auth: `${baseUrl}/api/auth`,
+        test: `${baseUrl}/api/test`
       },
-      serverVersion: process.env.npm_package_version || '1.0.0',
       timestamp: new Date().toISOString(),
-      message: "This is a public API endpoint that bypasses authentication"
+      message: "Public API endpoint - no authentication required"
     });
   } catch (error) {
-    console.error('Error in bypass-auth server:', error);
+    console.error('Error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
