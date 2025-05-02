@@ -8,9 +8,9 @@ const getBaseUrl = () => {
   }
   
   if (Platform.OS === 'android') {
-    return 'http://10.0.2.2:3000'; // Android emulator localhost
+    return 'http://10.0.2.2:3000/api'; // Android emulator localhost
   }
-  return 'http://localhost:3000'; // iOS simulator localhost
+  return 'http://10.16.22.25:3000/api'; // iOS simulator localhost
 };
 
 const BASE_URL = getBaseUrl();

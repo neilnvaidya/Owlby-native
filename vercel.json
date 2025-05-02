@@ -2,14 +2,20 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/src/server.ts",
+      "src": "backend/dist/serverless.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "backend/src/server.ts"
+      "src": "/(.*)",
+      "dest": "backend/dist/serverless.js"
     }
-  ]
+  ],
+  "env": {
+    "SUPABASE_URL": "@supabase_url",
+    "SUPABASE_KEY": "@supabase_key",
+    "GOOGLE_CLIENT_ID": "@google_client_id",
+    "GOOGLE_CLIENT_SECRET": "@google_client_secret"
+  }
 } 

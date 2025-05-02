@@ -25,6 +25,7 @@ export interface CreateUserParams {
 
 export interface UpdateUserParams {
   name?: string;
+  avatar?: string;
 }
 
 // Get user by ID
@@ -160,7 +161,7 @@ export const createUser = async (params: CreateUserParams): Promise<User> => {
 };
 
 // Update user
-export const updateUser = async (id: string, updates: Partial<CreateUserParams>): Promise<User | null> => {
+export const updateUser = async (id: string, updates: UpdateUserParams): Promise<User | null> => {
   try {
     const { data, error } = await supabase
       .from('users')
@@ -185,11 +186,19 @@ export const updateUser = async (id: string, updates: Partial<CreateUserParams>)
 };
 
 // Delete user
-export async function deleteUser(id: string): Promise<void> {
-  const { error } = await supabase
-    .from('users')
-    .delete()
-    .eq('id', id);
+export const deleteUser = async (id: string): Promise<void> => {
+  try {
+    const { error } = await supabase
+      .from('users')
+      .delete()
+      .eq('id', id);
 
-  if (error) throw error;
-} 
+    if (error) {
+      logger.error('Error deleting user:', error);
+      throw error;
+    }
+  } catch (error) {
+    logger.error('Error deleting user:', error);
+    throw error;
+  }
+}; 

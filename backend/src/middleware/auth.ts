@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyToken, TokenPayload } from '../utils/jwt';
+import { supabase } from '../config/supabase';
 import { getUserById } from '../models/user';
 import { logger } from '../utils/logger';
 
@@ -15,8 +15,14 @@ export interface AuthRequest extends Request {
   userId?: string;
 }
 
-// Mock auth middleware that accepts any token
-export const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
+// Verify JWT token from Supabase
+const verifyToken = async (token: string) => {
+  const { data: { user }, error } = await supabase.auth.getUser(token);
+  if (error) throw error;
+  return { userId: user?.id };
+};
+
+export const authMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const authHeader = req.headers.authorization;
     
@@ -32,14 +38,24 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
       return;
     }
     
-    // In a real implementation, we would verify the token
-    // For testing, we'll attach a mock user to the request
-    req.user = {
-      id: '1',
-      email: 'test@example.com',
-      name: 'Test User',
-      avatar: 'https://via.placeholder.com/150'
-    };
+    // Verify token with Supabase
+    const { data: { user: supabaseUser }, error } = await supabase.auth.getUser(token);
+    
+    if (error || !supabaseUser) {
+      logger.error('Supabase auth error:', error);
+      res.status(401).json({ success: false, error: 'Invalid token' });
+      return;
+    }
+    
+    // Get user from our database
+    const user = await getUserById(supabaseUser.id);
+    if (!user) {
+      res.status(401).json({ success: false, error: 'User not found' });
+      return;
+    }
+    
+    // Attach user to request
+    req.user = user;
     
     next();
   } catch (error) {
@@ -56,7 +72,13 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = verifyToken(token);
+    if (!token) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+    const decoded = await verifyToken(token);
+    if (!decoded.userId) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
     const user = await getUserById(decoded.userId);
 
     if (!user) {

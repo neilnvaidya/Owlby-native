@@ -33,70 +33,168 @@ The app is designed to create an interactive, free-flowing learning experience w
 The project consists of two main components:
 
 1. **Mobile App (React Native/Expo)**: The frontend application that users interact with
-2. **Backend Server (Node.js/Express)**: The API server that handles authentication, data storage, and AI interactions
+2. **Backend (Serverless Functions)**: API endpoints deployed as serverless functions that handle authentication, data storage, and AI interactions
 
 ### Backend Architecture
 
 The backend is built with:
-- **Node.js/Express**: Web server framework
+- **Serverless Functions**: Deployed on Vercel/Netlify
 - **TypeScript**: For type safety and better developer experience
 - **Supabase**: PostgreSQL database with built-in authentication
 - **JWT**: For secure authentication
 - **RESTful API**: For communication with the mobile app
 
-### Database Schema
+### Project Structure
 
-The database includes the following tables:
-- **users**: Stores user information (id, google_id, email, name)
-- **topics**: Stores learning topics (id, name, category, description)
-- **sessions**: Tracks learning sessions (id, user_id, topic_id, start_time, end_time, duration, summary, complexity_level)
-- **learning_paths**: Stores learning paths created for users (id, user_id, session_id, topic_id, name, description)
-- **learning_nodes**: Stores nodes within learning paths (id, path_id, parent_id, content_type, content_summary, complexity_level)
-- **user_learning_profiles**: Stores user learning preferences and progress (id, user_id, language_level, math_level, science_level, history_level, preferred_topics, challenging_concepts, learning_style, attention_span)
-- **session_learning_insights**: Stores insights from learning sessions (id, session_id, user_id, topics_covered, concepts_mastered, concepts_needing_review, language_complexity, engagement_level)
+### Backend (`backend/`)
+```
+src/
+├── config/         # Configuration files
+├── controllers/    # Route controllers
+├── middleware/     # Express middleware
+├── models/        # Database models
+├── routes/        # API routes
+├── services/      # Business logic services
+├── types/         # TypeScript type definitions
+├── utils/         # Utility functions
+└── __tests__/     # Test files
+```
 
-### Data Flow
+### Frontend (`app/`)
+```
+app/
+├── (auth)/        # Authentication screens
+│   ├── login.tsx  # Login screen with OAuth
+│   ├── index.tsx  # Auth redirect
+│   └── _layout.tsx # Auth layout
+├── components/    # Reusable UI components
+├── constants/     # App constants
+├── features/      # Feature-based modules
+├── navigation/    # Navigation configuration
+├── services/      # API and business logic services
+├── store/         # State management
+└── utils/         # Utility functions
+```
 
-1. User authenticates with Google OAuth
-2. User engages in free-flowing conversation with the AI about any topic
-3. As the conversation progresses, the AI detects topic changes or specialized learning modes
-4. When a new topic or mode is detected, a branch is created in the learning path
-5. The session continues with the AI adapting to the user's learning style
-6. When the session ends, it is summarized and stored
-7. Learning insights are generated and stored
-8. User learning profile is updated based on insights
-9. The AI uses this information to create a more personalized experience in future sessions
+## Current Progress & Next Steps
 
-## Development Plan
+### Completed Features ✅
 
-### MVP (Minimum Viable Product)
+#### Backend Foundation
+- ✅ Serverless architecture setup with TypeScript
+- ✅ Supabase database connection and configuration
+- ✅ Authentication system with Google OAuth
+- ✅ JWT token generation and verification
+- ✅ Token refresh functionality
+- ✅ Password reset functionality
+- ✅ User model with CRUD operations
+- ✅ Learning Node model with CRUD operations
+- ✅ API routes for core models
+- ✅ Authentication middleware
+- ✅ Error handling middleware
+- ✅ Health check endpoint
+- ✅ Comprehensive test suite
 
-The MVP focuses on delivering the core experience of free-flowing, privacy-focused learning with AI.
+#### Frontend Foundation
+- ✅ Basic app structure with Expo
+- ✅ Navigation setup with Expo Router
+- ✅ Authentication screens with Google OAuth
+- ✅ Basic components structure
+- ✅ Asset management
+- ✅ Constants organization
+- ✅ EAS build configuration for Android and iOS
 
-#### Core Chat Experience
-- Simple, clean chat interface
-- Basic conversation with AI
-- Topic detection during conversation
-- Session summaries at end of conversations
+### In Progress 🚧
 
-#### Basic Learning Path
-- Simple visual representation of topics discussed
-- Basic branching structure
-- Ability to return to previous topics
+#### Authentication Flow
+- 🚧 Email verification UI implementation
+- 🚧 Loading states during authentication
+- 🚧 Error handling for failed logins
+- 🚧 Protected route handling
+- 🚧 Authentication state management
+- 🚧 Splash screen implementation
 
-#### Essential Privacy Features
-- No chat history storage
-- Basic session summaries only
-- Simple user preferences storage
+### Next Deliverables (2-Week Sprints)
 
-#### Minimal User Profile
-- Basic authentication
-- Learning style preferences
-- Session history (topics only)
+#### Sprint 0: Authentication & App Setup (Current)
+1. Authentication Backend
+   - [x] Complete Google OAuth endpoints
+   - [x] Implement JWT token refresh
+   - [x] Add email/password authentication option
+   - [x] Add password reset functionality
+   - [x] Add email verification endpoints
+   - [x] Add tests for authentication flows
 
-### Extension Features (Post-MVP)
+2. Authentication UI
+   - [x] Create login screen with Google OAuth button
+   - [x] Add email/password login form
+   - [ ] Implement loading states during authentication
+   - [ ] Add error handling for failed logins
+   - [x] Create registration screen for new users
+   - [ ] Add email verification UI
+   - [ ] Add tests for authentication components
 
-#### Advanced Learning Path Features
+3. App Setup
+   - [ ] Set up protected route handling
+   - [ ] Implement authentication state management
+   - [ ] Create splash screen and loading states
+   - [ ] Add tests for navigation and state management
+
+#### Sprint 1: User Profile & Preferences
+1. User Profile Backend
+   - [ ] Implement user profile creation on first login
+   - [ ] Add endpoint for updating user learning preferences
+   - [ ] Add endpoint for retrieving user profile
+   - [ ] Add tests for user profile operations
+
+2. User Profile UI
+   - [ ] Create user profile screen
+   - [ ] Implement form for setting learning preferences
+   - [ ] Add save preferences functionality
+   - [ ] Add tests for UI components
+
+#### Sprint 2: Basic Chat Experience
+1. AI Service Integration
+   - [ ] Create AIService interface
+   - [ ] Implement Google Gemini integration
+   - [ ] Create endpoint for chat interactions
+   - [ ] Add tests for AI service
+
+2. Basic Chat UI
+   - [ ] Create chat screen with message list
+   - [ ] Implement message input and send functionality
+   - [ ] Add loading states and error handling
+   - [ ] Add tests for chat components
+
+#### Sprint 3: Session Management
+1. Session Backend
+   - [ ] Create session model and endpoints
+   - [ ] Implement session storage
+   - [ ] Add session summary generation
+   - [ ] Add tests for session operations
+
+2. Session UI
+   - [ ] Add session controls
+   - [ ] Implement session summary display
+   - [ ] Add session history view
+   - [ ] Add tests for session components
+
+#### Sprint 4: Learning Path Visualization
+1. Learning Path Backend
+   - [ ] Implement path creation and branching
+   - [ ] Add path visualization data structure
+   - [ ] Create path summary endpoints
+   - [ ] Add tests for path operations
+
+2. Learning Path UI
+   - [ ] Create path visualization component
+   - [ ] Implement path navigation
+   - [ ] Add path summary display
+   - [ ] Add tests for path components
+
+### Future Features (Post-MVP)
+
+#### Advanced Learning Features
 - Interactive visualization
 - Topic relationships and connections
 - Custom path organization
@@ -125,141 +223,6 @@ The MVP focuses on delivering the core experience of free-flowing, privacy-focus
 - Export/delete data
 - Privacy analytics
 - Enhanced security features
-
-## Ordered Implementation Plan
-
-This plan is organized to allow for frequent testing and incremental development.
-
-### Phase 1: Foundation & Authentication
-
-#### 1.1 Backend Foundation (BE)
-- ✅ Basic Express server setup with TypeScript
-- ✅ Database connection with Supabase
-- ✅ Authentication routes (Google OAuth)
-- ✅ JWT token generation and verification
-- ✅ User model with CRUD operations
-- ✅ Topic model with CRUD operations
-- ✅ Session model with CRUD operations
-- ✅ Learning Path model with CRUD operations
-- ✅ Learning Node model with CRUD operations
-- ✅ User Learning Profile model with CRUD operations
-- ✅ Session Learning Insights model with CRUD operations
-- ✅ API routes for all models
-- ✅ Authentication middleware
-- ✅ Error handling middleware
-- ✅ Health check endpoint
-
-#### 1.2 Fix Type Mismatch Issues (BE)
-- Fix type mismatch between string and number for user IDs in JWT functions
-- Update JWT token generation and verification to use consistent types
-
-#### 1.3 Basic Authentication UI (FE)
-- Create login screen with Google OAuth button and Implement email/password authentication
-- Implement loading screen during authentication
-- Add error handling for authentication failures
-- Implement authentication flow (token storage, API request handling)
-
-#### 1.4 User Profile Backend (BE)
-- Implement user profile creation on first login
-- Add endpoint for updating user learning preferences
-- Add endpoint for retrieving user profile
-
-#### 1.5 User Profile UI (FE)
-- Create user profile screen
-- Implement form for setting learning preferences
-- Add save preferences functionality
-
-### Phase 2: Basic Chat Functionality
-
-#### 2.1 AI Service Integration (BE)
-- Create AIService interface for flexibility
-- Implement Google Gemini integration
-- Create endpoint for sending messages and receiving responses
-- Implement basic response handling
-
-#### 2.2 Basic Chat UI (FE)
-- Create chat screen with message list
-- Implement message input field and send button
-- Add loading indicator for AI responses
-- Implement basic error handling
-
-#### 2.3 Chat Functionality (FE)
-- Implement sending messages to backend
-- Add display of AI responses
-- Implement retry logic for failed requests
-
-#### 2.4 Session Management (BE)
-- Create endpoints for starting and ending sessions
-- Implement basic session storage
-
-#### 2.5 Session UI (FE)
-- Add start new session button
-- Implement end session button
-- Create basic session summary display
-
-### Phase 3: Topic Detection & Learning Path
-
-#### 3.1 Topic Detection (BE)
-- Define structured response format for AI (JSON with response and metadata)
-- Implement topic detection logic
-- Create endpoint for analyzing conversations
-- Define topic detection parameters and rules
-
-#### 3.2 Learning Path Backend (BE)
-- Create endpoint for creating new learning paths
-- Implement endpoint for adding nodes to learning paths
-- Add endpoint for retrieving learning paths
-- Implement logic for determining when to create a new branch
-
-#### 3.3 Learning Path UI (FE)
-- Create learning path screen with tree visualization
-- Implement node display with topic information
-- Add branch visualization with parent-child relationships
-- Create tree navigation controls
-
-#### 3.4 Topic Branching UI (FE)
-- Implement ability to select nodes
-- Add ability to start new sessions from selected topics
-- Create display for session history for each topic
-
-### Phase 4: Privacy & Data Management
-
-#### 4.1 Privacy Backend (BE)
-- Create data anonymization service
-- Implement data minimization principles
-- Create endpoint for user data deletion
-- Implement session summary generation with privacy focus
-
-#### 4.2 Privacy UI (FE)
-- Create privacy settings screen
-- Implement data retention options
-- Add data deletion option
-- Create privacy information display
-
-### Phase 5: Additional Authentication Methods
-
-#### 5.1 Additional Auth Backend (BE)
-- Add Apple Sign-In (for iOS app)
-
-#### 5.2 Additional Auth UI (FE)
-- Add email/password login form
-- Implement Apple Sign-In button
-- Update login screen to accommodate multiple auth options
-
-### Phase 6: Testing & Refinement
-
-#### 6.1 Backend Testing (BE)
-- Implement unit tests for all models
-- Add integration tests for all endpoints
-- Create end-to-end tests for critical flows
-- Fix any remaining bugs or issues
-
-#### 6.2 Frontend Testing (FE)
-- Implement unit tests for components
-- Add integration tests for screens
-- Create end-to-end tests for critical flows
-- Fix any UI/UX issues or bugs
-
 
 ## Known Issues and Challenges
 

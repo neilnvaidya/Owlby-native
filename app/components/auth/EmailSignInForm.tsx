@@ -37,7 +37,7 @@ export default function EmailSignInForm({ isLogin = true }: EmailSignInFormProps
 
       let response;
       if (isLogin) {
-        response = await api.loginWithEmail(email, password);
+        response = await api.login(email, password);
       } else {
         response = await api.register(email, password, name);
       }
@@ -103,6 +103,7 @@ export default function EmailSignInForm({ isLogin = true }: EmailSignInFormProps
         style={[styles.button, { backgroundColor: colors.tint }]}
         onPress={handleSubmit}
         disabled={isSubmitting}
+        testID="submit-button"
       >
         {isSubmitting ? (
           <ActivityIndicator color="#fff" />

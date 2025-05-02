@@ -13,6 +13,8 @@
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
+const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config();
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -68,7 +70,7 @@ SUPABASE_KEY=${answers.SUPABASE_KEY}
 ${answers.SUPABASE_SERVICE_KEY ? `SUPABASE_SERVICE_KEY=${answers.SUPABASE_SERVICE_KEY}` : ''}
 
 # Server Configuration
-PORT=3000
+PORT=3001
 NODE_ENV=development
 `;
 
@@ -82,5 +84,35 @@ NODE_ENV=development
   
   rl.close();
 }
+
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error('Missing Supabase credentials. Please set SUPABASE_URL and SUPABASE_KEY in your .env file.');
+  process.exit(1);
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+async function setupDatabase() {
+  try {
+    // Execute the SQL file
+    const { error } = await supabase.rpc('execute_sql_file', {
+      file_path: 'functions.sql'
+    });
+
+    if (error) {
+      console.error('Error executing SQL file:', error);
+      return;
+    }
+
+    console.log('Database setup completed successfully!');
+  } catch (error) {
+    console.error('Error setting up database:', error);
+  }
+}
+
+setupDatabase();
 
 askQuestion(0); 

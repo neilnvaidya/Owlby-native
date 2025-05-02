@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import Colors from '../../constants/Colors';
 import { useColorScheme } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
@@ -7,9 +7,14 @@ import { FontAwesome } from '@expo/vector-icons';
 interface GoogleSignInButtonProps {
   onPress: () => void;
   disabled?: boolean;
+  isLoading?: boolean;
 }
 
-export default function GoogleSignInButton({ onPress, disabled = false }: GoogleSignInButtonProps) {
+export default function GoogleSignInButton({ 
+  onPress, 
+  disabled = false,
+  isLoading = false 
+}: GoogleSignInButtonProps) {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme ?? 'light'];
 
@@ -17,13 +22,17 @@ export default function GoogleSignInButton({ onPress, disabled = false }: Google
     <TouchableOpacity
       style={[styles.button, { backgroundColor: '#fff' }]}
       onPress={onPress}
-      disabled={disabled}
+      disabled={disabled || isLoading}
     >
       <View style={styles.iconContainer}>
+        {isLoading ? (
+          <ActivityIndicator color="#DB4437" />
+        ) : (
         <FontAwesome name="google" size={20} color="#DB4437" />
+        )}
       </View>
       <Text style={styles.text}>
-        Sign in with Google
+        {isLoading ? 'Signing in...' : 'Sign in with Google'}
       </Text>
     </TouchableOpacity>
   );

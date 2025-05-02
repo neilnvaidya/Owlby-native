@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, ActivityIndicator } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 import { useColorScheme } from 'react-native';
@@ -7,9 +7,14 @@ import { useColorScheme } from 'react-native';
 interface AppleSignInButtonProps {
   onPress: () => void;
   disabled?: boolean;
+  isLoading?: boolean;
 }
 
-export default function AppleSignInButton({ onPress, disabled = false }: AppleSignInButtonProps) {
+export default function AppleSignInButton({ 
+  onPress, 
+  disabled = false,
+  isLoading = false 
+}: AppleSignInButtonProps) {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme ?? 'light'];
 
@@ -17,12 +22,18 @@ export default function AppleSignInButton({ onPress, disabled = false }: AppleSi
     <TouchableOpacity
       style={[styles.button, { backgroundColor: '#000' }]}
       onPress={onPress}
-      disabled={disabled}
+      disabled={disabled || isLoading}
     >
+      {isLoading ? (
+        <ActivityIndicator color="#fff" />
+      ) : (
+        <>
       <FontAwesome name="apple" size={20} color="#fff" style={styles.icon} />
       <Text style={styles.text}>
         Sign in with Apple
       </Text>
+        </>
+      )}
     </TouchableOpacity>
   );
 }
