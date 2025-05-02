@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../../src/lib/supabase';
 import Colors from '../constants/Colors';
 
 export default function RegisterScreen() {
@@ -27,7 +27,7 @@ export default function RegisterScreen() {
       if (error) throw error;
       Alert.alert('Success', 'Please check your email for verification link');
       router.push('/login');
-    } catch (error) {
+    } catch (error: any) {
       Alert.alert('Error', error.message);
     } finally {
       setLoading(false);

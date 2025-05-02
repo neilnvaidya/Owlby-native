@@ -1,19 +1,70 @@
-import { Platform } from 'react-native';
-import { useAuth } from './auth';
+import Constants from 'expo-constants';
 
-// Get the base URL based on environment
-const getBaseUrl = () => {
-  if (process.env.NODE_ENV === 'production') {
-    return process.env.EXPO_PUBLIC_API_URL || 'https://your-vercel-app.vercel.app';
-  }
-  
-  if (Platform.OS === 'android') {
-    return 'http://10.0.2.2:3000/api'; // Android emulator localhost
-  }
-  return 'http://10.16.22.25:3000/api'; // iOS simulator localhost
+// Get API URL from environment variables
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
+
+if (!API_URL) {
+  console.warn('API_URL is not defined in environment variables. Using fallback URL.');
+}
+
+// Use environment variable or fallback to local development
+export const getApiUrl = () => {
+  return API_URL || 'http://localhost:3001';
 };
 
-const BASE_URL = getBaseUrl();
+// Basic fetch wrapper with error handling
+export const fetchApi = async <T>(
+  endpoint: string,
+  options: RequestInit = {}
+): Promise<T> => {
+  const url = `${getApiUrl()}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+  
+  const defaultHeaders = {
+    'Content-Type': 'application/json',
+  };
+
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      ...defaultHeaders,
+      ...options.headers,
+    },
+  });
+
+  // Check if the response is ok
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(
+      errorData.message || errorData.error || `API Error: ${response.status}`
+    );
+  }
+
+  // Return JSON response or empty object if no content
+  return response.status === 204 ? {} as T : await response.json();
+};
+
+// API endpoints
+export const api = {
+  auth: {
+    signIn: (email: string, password: string) =>
+      fetchApi('/api/auth', {
+        method: 'POST',
+        body: JSON.stringify({ action: 'sign-in', email, password }),
+      }),
+    signUp: (email: string, password: string) =>
+      fetchApi('/api/auth', {
+        method: 'POST',
+        body: JSON.stringify({ action: 'sign-up', email, password }),
+      }),
+    signOut: () =>
+      fetchApi('/api/auth', {
+        method: 'POST',
+        body: JSON.stringify({ action: 'sign-out' }),
+      }),
+    getSession: () => fetchApi('/api/auth'),
+  },
+  // Add more API endpoints as needed
+};
 
 interface ApiResponse<T = any> {
   success: boolean;
@@ -155,4 +206,4 @@ class ApiClient {
   }
 }
 
-export const api = new ApiClient(BASE_URL); 
+export const apiClient = new ApiClient(getApiUrl()); 

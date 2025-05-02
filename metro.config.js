@@ -7,4 +7,11 @@ const config = getDefaultConfig(__dirname, {
   isCSSEnabled: true,
 });
 
+// Add exclusions for problematic directories
+config.resolver.blockList = [
+  /\.vercel\/.*/,
+  /\.expo\/.*/,
+  /node_modules\/.*\/node_modules\/react-native\/.*/,
+];
+
 module.exports = config;

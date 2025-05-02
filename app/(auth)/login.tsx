@@ -20,7 +20,7 @@ export default function LoginScreen() {
 
       if (error) throw error;
       router.replace('/(tabs)');
-    } catch (error) {
+    } catch (error:any) {
       Alert.alert('Error', error.message);
     } finally {
       setLoading(false);
