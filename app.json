@@ -38,7 +38,7 @@
       "eas": {
         "projectId": "c0c00d14-ecf9-4ee1-b5b6-f195e1d25bfe"
       },
-      "developmentUrl": "https://preview.owlby.com/api/development"
+      "developmentUrl": "https://owlby-native-leh9xvmom-neilnvaidyas-projects.vercel.app/api/bypass-auth"
     },
     "owner": "neilvaidya",
     "developmentClient": {
