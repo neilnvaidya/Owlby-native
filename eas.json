@@ -8,7 +8,7 @@
       "distribution": "internal",
       "env": {
         "EXPO_PUBLIC_ENV": "preview",
-        "EXPO_PUBLIC_API_URL": "https://owlby-native-pnp4wef85-neilnvaidyas-projects.vercel.app"
+        "EXPO_PUBLIC_API_URL": "https://owlby-native-i1tb9xow6-neilnvaidyas-projects.vercel.app"
       }
     },
     "development-simulator": {
@@ -19,20 +19,21 @@
       },
       "env": {
         "EXPO_PUBLIC_ENV": "preview",
-        "EXPO_PUBLIC_API_URL": "https://owlby-native-pnp4wef85-neilnvaidyas-projects.vercel.app"
+        "EXPO_PUBLIC_API_URL": "https://owlby-native-i1tb9xow6-neilnvaidyas-projects.vercel.app"
       }
     },
     "preview": {
       "distribution": "internal",
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
       },
       "ios": {
         "simulator": true
       },
       "env": {
         "EXPO_PUBLIC_ENV": "preview",
-        "EXPO_PUBLIC_API_URL": "https://owlby-native-pnp4wef85-neilnvaidyas-projects.vercel.app",
+        "EXPO_PUBLIC_API_URL": "https://owlby-native-i1tb9xow6-neilnvaidyas-projects.vercel.app",
         "EXPO_PUBLIC_SUPABASE_URL": "{{SUPABASE_URL}}",
         "EXPO_PUBLIC_SUPABASE_KEY": "{{SUPABASE_KEY}}"
       }
@@ -44,7 +45,7 @@
       },
       "env": {
         "EXPO_PUBLIC_ENV": "production",
-        "EXPO_PUBLIC_API_URL": "https://owlby-native-pnp4wef85-neilnvaidyas-projects.vercel.app",
+        "EXPO_PUBLIC_API_URL": "https://owlby-native-i1tb9xow6-neilnvaidyas-projects.vercel.app",
         "EXPO_PUBLIC_SUPABASE_URL": "{{SUPABASE_URL}}",
         "EXPO_PUBLIC_SUPABASE_KEY": "{{SUPABASE_KEY}}"
       }
