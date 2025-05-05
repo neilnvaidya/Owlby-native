@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, FlatList, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { supabase } from '../backend/src/config/supabase';
+import { supabase } from '../lib/supabase';
 
 interface Message {
   id: string;

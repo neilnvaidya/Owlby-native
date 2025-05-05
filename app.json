@@ -3,46 +3,21 @@
     "name": "owlby-native",
     "slug": "owlby-native",
     "version": "1.0.0",
+    "sdkVersion": "53.0.0",
+    "platforms": ["ios", "android", "web"],
+    "assetBundlePatterns": ["**/*"],
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "userInterfaceStyle": "automatic",
+    "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "userInterfaceStyle": "automatic",
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.owlbynative"
+      "bundleIdentifier": "com.yourname.owlbynative"
     },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.anonymous.owlbynative",
-      "permissions": [
-        "INTERNET"
-      ]
-    },
-    "web": {
-      "favicon": "./assets/images/favicon.png"
-    },
-    "plugins": [
-      "expo-router"
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "c0c00d14-ecf9-4ee1-b5b6-f195e1d25bfe"
-      },
-      "developmentUrl": "https://owlby-native-leh9xvmom-neilnvaidyas-projects.vercel.app/api/bypass-auth"
-    },
-    "owner": "neilvaidya",
-    "developmentClient": {
-      "silentLaunch": true
-    }
+    "scheme": "owlby"
+    
   }
 }

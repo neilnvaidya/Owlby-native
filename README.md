@@ -140,6 +140,41 @@ app/
    - [ ] Create splash screen and loading states
    - [ ] Add tests for navigation and state management
 
+---
+
+### Sprint 0: Detailed Task Breakdown & Code Suggestions
+
+#### Authentication UI
+- **Loading States**
+  - Show a loading spinner/button state during login, registration, and session checks.
+  - Example: Use a `loading` state in your auth forms and disable buttons while loading.
+- **Error Handling**
+  - Display error messages for failed logins/registrations (e.g., invalid credentials, network errors).
+  - Example: Catch errors in your sign-in/sign-up functions and set an `error` state to display in the UI.
+- **Email Verification UI**
+  - After registration, prompt the user to verify their email.
+  - Show a message if the user is not verified and provide a button to resend the verification email.
+- **Tests for Auth Components**
+  - Write tests for login, registration, and verification flows using Jest and React Native Testing Library.
+
+#### App Setup
+- **Protected Route Handling**
+  - Redirect unauthenticated users to the login screen.
+  - Example: In your navigation or route guards, check for a valid session before rendering protected screens.
+- **Authentication State Management**
+  - Ensure session persistence and handle session refresh on app start.
+  - Example: Use `useEffect` in your AuthProvider to check and refresh the session.
+- **Splash Screen and Loading States**
+  - Show a splash/loading screen while checking authentication/session state on app launch.
+- **Tests for Navigation and State Management**
+  - Write tests to ensure protected routes and session management work as expected.
+
+#### Known Issues
+- **Type Mismatches**
+  - Fix any type mismatches in JWT/user ID handling in the backend.
+
+---
+
 #### Sprint 1: User Profile & Preferences
 1. User Profile Backend
    - [ ] Implement user profile creation on first login

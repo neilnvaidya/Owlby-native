@@ -1,17 +1,18 @@
-// Learn more https://docs.expo.io/guides/customizing-metro
+// Learn more: https://docs.expo.dev/guides/customizing-metro/
 const { getDefaultConfig } = require('expo/metro-config');
+const exclusionList = require('metro-config/src/defaults/exclusionList');
 
-/** @type {import('expo/metro-config').MetroConfig} */
-const config = getDefaultConfig(__dirname, {
-  // [Web-only]: Enables CSS support in Metro.
-  isCSSEnabled: true,
-});
-
-// Add exclusions for problematic directories
-config.resolver.blockList = [
-  /\.vercel\/.*/,
-  /\.expo\/.*/,
-  /node_modules\/.*\/node_modules\/react-native\/.*/,
-];
-
-module.exports = config;
+module.exports = {
+  ...getDefaultConfig(__dirname),
+  resolver: {
+    ...getDefaultConfig(__dirname).resolver,
+    blockList: exclusionList([
+      /node_modules\/ws\/.*/,
+      /node_modules\/stream\/.*/,
+    ]),
+    extraNodeModules: {
+      ...(getDefaultConfig(__dirname).resolver.extraNodeModules || {}),
+      ws: require.resolve('./shim/ws.js'),
+    },
+  },
+};

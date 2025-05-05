@@ -3,7 +3,7 @@ import { StyleSheet, TextInput, View, Text, TouchableOpacity, ActivityIndicator 
 import { useColorScheme } from 'react-native';
 import Colors from '../../constants/Colors';
 import { useRouter } from 'expo-router';
-import { api } from '../../utils/api';
+import { apiClient } from '../../../utils/api';
 
 interface EmailSignInFormProps {
   isLogin?: boolean;
@@ -37,9 +37,9 @@ export default function EmailSignInForm({ isLogin = true }: EmailSignInFormProps
 
       let response;
       if (isLogin) {
-        response = await api.login(email, password);
+        response = await apiClient.login(email, password);
       } else {
-        response = await api.register(email, password, name);
+        response = await apiClient.register(email, password, name);
       }
 
       if (!response.success) {
@@ -49,7 +49,7 @@ export default function EmailSignInForm({ isLogin = true }: EmailSignInFormProps
 
       // Store the token
       if (response.data?.token) {
-        api.setToken(response.data.token);
+        apiClient.setToken(response.data.token);
         // Navigate to main app
         router.replace('/(tabs)');
       } else {
